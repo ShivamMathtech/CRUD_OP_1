@@ -81,6 +81,21 @@ app.delete("/api/studentdelete/:id", (req, res) => {
     });
   }
 });
+app.put("/api/student/update", (req, res) => {
+  student.findByIdAndUpdate({ _id: Object(req.body._id) }).then((d) => {
+    d.Name = req.body.Name;
+    d.Roll = req.body.Roll;
+    d.save()
+      .then((doc) => {
+        res.status(200).json(doc);
+      })
+      .catch((err) => {
+        res
+          .status(500)
+          .json({ message: "Failed to update student", error: err.message });
+      });
+  });
+});
 let port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
